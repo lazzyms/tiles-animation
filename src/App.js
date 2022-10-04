@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import Box from './Box';
 
+const boxCount = 6
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [boxState, setBoxState] = useState(Array.from(Array(boxCount), (e,i) => false));
+  const [steps, setSteps] = useState([]);
+
+  useEffect(() => {
+    if(steps.length === boxCount) {
+      steps.reverse().forEach((val, i) => {
+        setTimeout(() => {
+          const updatedState = boxState;
+          updatedState[val] = !boxState[val];
+          setBoxState([...updatedState])
+        }, i * 300)
+        if(i === boxCount - 1) {
+          setSteps([]);
+        }
+      })
+    } 
+  }, [steps])
+
+  const handleClick = (i) => {
+    const updatedState = boxState;
+    updatedState[i] = !boxState[i];
+    setBoxState([...updatedState])
+    setSteps([...steps, i]);
+    
+  }
+
+  return <div className='App'>
+    {/* Add Css to arrange the box */}
+    {boxState.map((e,i) => (<Box key={i} index={i} state={e} handleClick={handleClick}/>))}
+  </div>;
 }
 
 export default App;
