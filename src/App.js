@@ -14,7 +14,7 @@ function App() {
           const updatedState = boxState;
           updatedState[val] = !boxState[val];
           setBoxState([...updatedState])
-        }, i * 300)
+        }, i * 500)
         if(i === boxCount - 1) {
           setSteps([]);
         }
@@ -32,6 +32,9 @@ function App() {
 
   return <div className='App'>
     {/* Add Css to arrange the box */}
+    <h1>
+      Click on the Boxes
+    </h1>
     {boxState.map((e,i) => (<Box key={i} index={i} state={e} handleClick={handleClick}/>))}
   </div>;
 }
